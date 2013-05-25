@@ -7,6 +7,8 @@ namespace StaticPageServer
 {
     public class Server
     {
+        private const string defaultFile = "index.html";
+
         private static class HttpStrings
         {
             public static string OK
@@ -25,7 +27,7 @@ namespace StaticPageServer
             try
             {
                 var server = new TcpListener(address, port);
-                Console.WriteLine("Post Apocalyptic Web Server started on {0}:{1}", address, port);
+                Console.WriteLine("Web Server started on {0}:{1}", address, port);
                 server.Start();
 
                 var bytes = new byte[1024];
@@ -56,9 +58,9 @@ namespace StaticPageServer
                             }
                             else if (Directory.Exists(filePath))
                             {
-                                if (File.Exists("index.html"))
+                                if (File.Exists(defaultFile))
                                 {
-                                    served = filePath + "index.html";
+                                    served = filePath + defaultFile;
                                     var content = File.ReadAllText(served);
                                     stream.Write(System.Text.Encoding.ASCII.GetBytes(HttpStrings.OK + content), 0,
                                                  content.Length + HttpStrings.OK.Length);
